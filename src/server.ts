@@ -3,6 +3,9 @@ import Express from 'express';
 import http from 'http';
 import { Send, Query } from 'express-serve-static-core';
 
+const MongoClient = require('mongodb').MongoClient
+const connectionString = 'mongodb+srv://admin:admin123@localhost:27017/test?retryWrites=true&w=majority'
+
 
 let app: Express.Application | undefined = undefined;
 const PORT = 3001;
@@ -40,9 +43,8 @@ app.get('/test', (_req: Express.Request, res: Express.Response) => {
     });
 });
 
-app.post('/quotes', (_req: Express.Request, res: Express.Response) => {
-    console.log('Hellooooooooooooooooo!')
-    res.status(200).json({ "Success": "Quote Post" });
+app.post('/quotes', (req: Express.Request, res: Express.Response) => {
+    res.status(200).json({ "Success": req.body });
 });
 
 app.post('/login', (req: TypedRequestBody<{ username: string, password: string }>, res: Express.Response) => {
